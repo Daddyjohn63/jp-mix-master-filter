@@ -2,6 +2,7 @@ import Wrapper from '../assets/wrappers/SearchForm';
 import { Form, useNavigation } from 'react-router-dom';
 
 const SearchForm = ({ searchTerm }) => {
+  // console.log('search term:', searchTerm);
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
   return (

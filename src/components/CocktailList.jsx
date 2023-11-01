@@ -2,6 +2,7 @@ import Wrapper from '../assets/wrappers/CocktailList';
 import CocktailCard from './CocktailCard';
 
 const CocktailList = ({ drinks }) => {
+  console.log(drinks);
   if (!drinks) {
     return <h4 style={{ textAlign: 'center' }}>no matching cocktails...</h4>;
   }
