@@ -292,6 +292,7 @@ PROJECT CSS
 .filter-btns {
   margin: auto;
   text-align: center;
+  padding-bottom: 1.5rem;
 }
 
 .filter-btn {

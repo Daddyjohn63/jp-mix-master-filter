@@ -10,20 +10,26 @@ import { QueryClient, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 const searchCocktailsQuery = (searchTerm, filter) => {
-  console.log(searchTerm, filter);
+  //console.log(searchTerm, filter);
   if (filter === 'Non_Alcoholic') {
     cocktailSearchUrl =
       'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic';
-  } else if (filter === 'Alcoholic') {
+  }
+
+  if (filter === 'Alcoholic') {
     cocktailSearchUrl =
       'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic';
-  } else {
-    cocktailSearchUrl = `${cocktailSearchUrl}${searchTerm}`;
+  }
+
+  if (filter === '') {
+    cocktailSearchUrl =
+      'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=all';
   }
   return {
     queryKey: ['search', searchTerm || 'all', filter],
     queryFn: async () => {
       const response = await axios.get(`${cocktailSearchUrl}${searchTerm}`);
+      console.log('axios:', response);
       return response.data.drinks;
     }
   };
@@ -33,7 +39,9 @@ export const loader =
   QueryClient =>
   async ({ request }) => {
     const url = new URL(request.url);
+    console.log(url); //I am getting "?search=vodka"
     const searchTerm = url.searchParams.get('search') || '';
+    console.log(searchTerm); // I get vodka
     await QueryClient.ensureQueryData(searchCocktailsQuery(searchTerm));
     return { searchTerm };
   };
@@ -44,7 +52,7 @@ const Landing = () => {
   const { data: drinks } = useQuery(searchCocktailsQuery(searchTerm, filter));
 
   const handleFilter = newFilter => {
-    console.log(newFilter);
+    //console.log(newFilter);
     setFilter(newFilter);
   };
 
@@ -73,7 +81,7 @@ const Landing = () => {
           Non-Alcoholic
         </button>
       </div>
-      <SearchForm searchTerm={searchTerm} />
+      {/* <SearchForm searchTerm={searchTerm} /> */}
       <CocktailList drinks={drinks} />
     </>
   );
